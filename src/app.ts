@@ -1,5 +1,5 @@
 import express from 'express';
-import todoRoutes from './routes/todoRoutes';
+import todoRoutes from './routes/todoListRoutes';
 import { errorHandler } from './middleware/errorHandler';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
@@ -13,11 +13,10 @@ app.use(express.json());
 // Routes
 app.use('/api', todoRoutes);
 
-// Error handling middleware
-app.use(errorHandler);
-
 // Swagger documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
+// Error handling middleware
+app.use(errorHandler);
 
 export default app;

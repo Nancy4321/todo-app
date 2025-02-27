@@ -1,11 +1,12 @@
 import { Request, Response } from 'express';
-import { Todo } from '../models/Todo';
+import { successResponse, errorResponse } from '../utils/apiResponse';
+import { TodoList } from '../models/TodoList';
 
 /**
  * @swagger
  * /todos:
  *   post:
- *     summary: Create a new todo
+ *     summary: Create a new list
  *     requestBody:
  *       required: true
  *       content:
@@ -14,47 +15,46 @@ import { Todo } from '../models/Todo';
  *             $ref: '#/components/schemas/Todo'
  *     responses:
  *       201:
-  *         description: Todo created successfully
+ *         description: Todo created successfully
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Todo'
  *       500:
- *         description: Failed to create todo
+ *         description: Failed to create list
  */
-export const createTodo = async (req: Request, res: Response) => {
+export const createList = async (req: Request, res: Response) => {
   try {
     const { title, description, status } = req.body;
-    const todo = await Todo.create({ title, description, status });
-    res.status(201).json(todo);
+    const list = await TodoList.create({ title, description, status });
+    successResponse(res, 'List created successfully', list, 201);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to create todo' });
+    errorResponse(res, 'Failed to create list', error);
   }
 };
-
 
 /**
  * @swagger
  * /todos:
  *   get:
- *     summary: Get all todos
+ *     summary: Get all lists
  *     responses:
  *       200:
  *         content:
  *           application/json:
  *             schema:
  *               type: array
- *               items:
+ *               lists:
  *                 $ref: '#/components/schemas/Todo'
  *       500:
- *         description: Failed to fetch todos
+ *         description: Failed to fetch lists
  */
-export const getTodos = async (req: Request, res: Response) => {
+export const getLists = async (req: Request, res: Response) => {
   try {
-    const todos = await Todo.find();
-    res.status(200).json(todos);
+    const lists = await TodoList.find();
+    successResponse(res, 'Lists fetched successfully', lists);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch todos' });
+    errorResponse(res, 'Failed to fetch lists', error);
   }
 };
 
@@ -62,7 +62,7 @@ export const getTodos = async (req: Request, res: Response) => {
  * @swagger
  * /todos/{id}:
  *   get:
- *     summary: Get a single todo by ID
+ *     summary: Get a single list by ID
  *     parameters:
  *       - in: path
  *         name: id
@@ -78,16 +78,16 @@ export const getTodos = async (req: Request, res: Response) => {
  *       404:
  *         description: Todo not found
  */
-export const getTodoById = async (req: Request, res: Response): Promise<void> => {
+export const getListById = async (req: Request, res: Response): Promise<void> => {
   try {
-    const todo = await Todo.findById(req.params.id);
-    if (!todo) {
-      res.status(404).json({ error: 'Todo not found' });
+    const list = await TodoList.findById(req.params.id);
+    if (!list) {
+      errorResponse(res, 'Todo not found', null, 404);
       return;
     }
-    res.status(200).json(todo);
+    successResponse(res, 'List fetched successfully', list);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch todo' });
+    errorResponse(res, 'Failed to fetch list', error);
   }
 };
 
@@ -95,7 +95,7 @@ export const getTodoById = async (req: Request, res: Response): Promise<void> =>
  * @swagger
  * /todos/{id}:
  *   put:
- *     summary: Update a todo by ID
+ *     summary: Update a list by ID
  *     parameters:
  *       - in: path
  *         name: id
@@ -117,21 +117,21 @@ export const getTodoById = async (req: Request, res: Response): Promise<void> =>
  *       404:
  *         description: Todo not found
  */
-export const updateTodo = async (req: Request, res: Response): Promise<void> => {
+export const updateList = async (req: Request, res: Response): Promise<void> => {
   try {
     const { title, description, status } = req.body;
-    const todo = await Todo.findByIdAndUpdate(
+    const list = await TodoList.findByIdAndUpdate(
       req.params.id,
       { title, description, status },
-      { new: true } // Return the updated document
+      { new: true }
     );
-    if (!todo) {
-      res.status(404).json({ error: 'Todo not found' });
+    if (!list) {
+      errorResponse(res, 'Todo not found', null, 404);
       return;
     }
-    res.status(200).json(todo);
+    successResponse(res, 'List updated successfully', list);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to update todo' });
+    errorResponse(res, 'Failed to update list', error);
   }
 };
 
@@ -139,7 +139,7 @@ export const updateTodo = async (req: Request, res: Response): Promise<void> => 
  * @swagger
  * /todos/{id}:
  *   delete:
- *     summary: Delete a todo by ID
+ *     summary: Delete a list by ID
  *     parameters:
  *       - in: path
  *         name: id
@@ -151,18 +151,18 @@ export const updateTodo = async (req: Request, res: Response): Promise<void> => 
  *         description: Todo deleted successfully
  *       404:
  *         description: Todo not found
- *      500:
- *        description: Failed to delete todo
+ *       500:
+ *         description: Failed to delete list
  */
-export const deleteTodo = async (req: Request, res: Response): Promise<void> => {
+export const deleteList = async (req: Request, res: Response): Promise<void> => {
   try {
-    const todo = await Todo.findByIdAndDelete(req.params.id);
-    if (!todo) {
-      res.status(404).json({ error: 'Todo not found' });
+    const list = await TodoList.findByIdAndDelete(req.params.id);
+    if (!list) {
+      errorResponse(res, 'List not found', null, 404);
       return;
     }
-    res.status(200).json({ message: 'Todo deleted successfully' });
+    successResponse(res, 'List deleted successfully');
   } catch (error) {
-    res.status(500).json({ error: 'Failed to delete todo' });
+    errorResponse(res, 'Failed to delete list', error);
   }
 };

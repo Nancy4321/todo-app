@@ -1,20 +1,20 @@
 import { Schema, model, Document } from 'mongoose';
 
-interface ITodo extends Document {
+interface List extends Document {
   title: string;
   description?: string;
-  status: string;
+  status: 'pending' | 'complete';
   createdAt: Date;
   updatedAt: Date;
 }
 
-const todoSchema = new Schema<ITodo>(
+const listSchema = new Schema<List>(
   {
     title: { type: String, required: true },
     description: { type: String },
-    status: { type: String, default: 'pending' },
+    status: { type: String, enum: ['pending', 'complete'], default: 'pending' },
   },
   { timestamps: true }
 );
 
-export const Todo = model<ITodo>('Todo', todoSchema);
+export const TodoList = model<List>('TodoList', listSchema);

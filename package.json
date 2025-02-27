@@ -1,7 +1,7 @@
 {
-  "name": "todo-app-service",
+  "name": "todo-list-api",
   "version": "1.0.0",
-  "description": "This is the endpoint for a todo-app",
+  "description": "A simple RESTful API for managing todo lists.",
   "main": "index.ts",
   "engines": {
     "node": "^23.x.x"
@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/Nancy4321/todo-app#readme",
   "devDependencies": {
+    "@jest/globals": "^29.7.0",
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.13.5",
@@ -36,6 +37,7 @@
     "supertest": "^7.0.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
+    "ts-jest": "^29.2.6",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3",
     "winston": "^3.17.0",

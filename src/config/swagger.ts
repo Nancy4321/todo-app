@@ -8,7 +8,7 @@ export const options: swaggerJsdoc.Options = {
     info: {
       title: 'Todo List API',
       version: '1.0.0',
-      description: 'A simple RESTful API for managing todo items',
+      description: 'A simple RESTful API for managing todo lists',
     },
     servers: [
       {
@@ -27,11 +27,11 @@ export const options: swaggerJsdoc.Options = {
             },
             title: {
               type: 'string',
-              description: 'The title of the todo',
+              description: 'The title of the todo (required)',
             },
             description: {
               type: 'string',
-              description: 'The description of the todo',
+              description: 'The description of the todo (optional)',
             },
             status: {
               type: 'string',
