@@ -12,7 +12,15 @@ import { TodoList } from '../models/TodoList';
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Todo'
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               status:
+ *                 type: string
+ *                 enum: [pending, complete]
  *     responses:
  *       201:
  *         description: Todo created successfully
@@ -111,7 +119,15 @@ export const getTodoById = async (req: Request, res: Response): Promise<void> =>
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Todo'
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               status:
+ *                 type: string
+ *                 enum: [pending, complete]
  *     responses:
  *       200:
  *         description: Todo updated successfully
