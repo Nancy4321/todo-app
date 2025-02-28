@@ -48,12 +48,12 @@ export const createTodo = async (req: Request, res: Response) => {
  *     summary: Get all lists
  *     responses:
  *       200:
- *         description: Todo fetched successfully
+ *         description: Todos fetched successfully
  *         content:
  *           application/json:
  *             schema:
  *               type: array
- *               lists:
+ *               items:
  *                 $ref: '#/components/schemas/Todo'
  *       500:
  *         description: Failed to fetch todo lists

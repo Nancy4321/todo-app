@@ -35,17 +35,17 @@ export const options: swaggerJsdoc.Options = {
             },
             status: {
               type: 'string',
-              description: 'The status of the todo (e.g., pending, completed)',
+              description: 'The status of the todo (i.e., pending, completed)',
             },
             createdAt: {
               type: 'string',
               format: 'date-time',
-              description: 'The timestamp when the todo was created',
+              description: 'The timestamp when the todo was created (auto-generated)',
             },
             updatedAt: {
               type: 'string',
               format: 'date-time',
-              description: 'The timestamp when the todo was last updated',
+              description: 'The timestamp when the todo was last updated (auto-generated)',
             },
           },
         },

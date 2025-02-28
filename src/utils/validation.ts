@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { z } from 'zod';
+import { apiResponse } from './apiResponse';
 
 const createTodoSchema = z.object({
   title: z.string().min(1, 'Title is required'),
@@ -17,7 +18,7 @@ export const validateListInput = (
     next();
   } catch (error) {
     if (error instanceof z.ZodError) {
-      res.status(400).json({ error: error.errors });
+      apiResponse(res, 'error', 'Validation failed', null, error.errors, 400);
     } else {
       next(error);
     }
