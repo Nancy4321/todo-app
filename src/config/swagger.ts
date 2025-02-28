@@ -35,7 +35,7 @@ export const options: swaggerJsdoc.Options = {
             },
             status: {
               type: 'string',
-              description: 'The status of the todo (i.e., pending, completed)',
+              description: 'The status of the todo (i.e., pending, complete)',
             },
             createdAt: {
               type: 'string',

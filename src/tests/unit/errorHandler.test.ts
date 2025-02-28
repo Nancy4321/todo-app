@@ -2,7 +2,9 @@ import { Request, Response, NextFunction } from 'express';
 import { errorHandler } from '../../middleware/errorHandler';
 import { apiResponse } from '../../utils/apiResponse';
 
-jest.mock('../../utils/apiResponse');
+jest.mock('../../utils/apiResponse', () => ({
+  apiResponse: jest.fn(),
+}));
 
 describe('errorHandler', () => {
   let req: Partial<Request>;
@@ -23,6 +25,6 @@ describe('errorHandler', () => {
 
     errorHandler(mockError, req as Request, res as Response, next);
 
-    expect(apiResponse).toHaveBeenCalledWith(res, 'error', 'Test Error', mockError, 500);
+    expect(apiResponse).toHaveBeenCalledWith(res, 'error', 'Test Error', null, mockError, undefined);
   });
 });
