@@ -1,6 +1,6 @@
 import { Schema, model, Document } from 'mongoose';
 
-interface List extends Document {
+interface Item extends Document {
   title: string;
   description?: string;
   status: 'pending' | 'complete';
@@ -8,7 +8,7 @@ interface List extends Document {
   updatedAt: Date;
 }
 
-const listSchema = new Schema<List>(
+const listSchema = new Schema<Item>(
   {
     title: { type: String, required: true },
     description: { type: String },
@@ -17,4 +17,4 @@ const listSchema = new Schema<List>(
   { timestamps: true }
 );
 
-export const TodoList = model<List>('TodoList', listSchema);
+export const TodoList = model<Item>('TodoList', listSchema);

@@ -1,19 +1,19 @@
 import express from 'express';
 import {
-  createList,
-  getLists,
-  getListById,
-  updateList,
-  deleteList,
+  createTodo,
+  getTodos,
+  getTodoById,
+  updateTodo,
+  deleteTodo,
 } from '../controllers/todoListController';
 import { validateListInput } from '../utils/validation';
 
 const router = express.Router();
 
-router.post('/todos', validateListInput, createList);
-router.get('/todos', getLists);
-router.get('/todos/:id', getListById);
-router.put('/todos/:id', validateListInput, updateList);
-router.delete('/todos/:id', deleteList);
+router.post('/todos', validateListInput, createTodo);
+router.get('/todos', getTodos);
+router.get('/todos/:id', getTodoById);
+router.put('/todos/:id', validateListInput, updateTodo);
+router.delete('/todos/:id', deleteTodo);
 
 export default router;

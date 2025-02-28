@@ -1,18 +1,18 @@
 import { TodoList } from '../models/TodoList';
 
-export const createList = async (title: string, description?: string, status?: string) => {
+export const createTodo = async (title: string, description?: string, status?: string) => {
   return await TodoList.create({ title, description, status });
 };
 
-export const getLists = async () => {
+export const getTodos = async () => {
   return await TodoList.find();
 };
 
-export const getListById = async (id: string) => {
+export const getTodoById = async (id: string) => {
   return await TodoList.findById(id);
 };
 
-export const updateList = async (id: string, title: string, description?: string, status?: string) => {
+export const updateTodo = async (id: string, title: string, description?: string, status?: string) => {
   return await TodoList.findByIdAndUpdate(
     id,
     { title, description, status },
@@ -20,6 +20,6 @@ export const updateList = async (id: string, title: string, description?: string
   );
 };
 
-export const deleteList = async (id: string) => {
+export const deleteTodo = async (id: string) => {
   return await TodoList.findByIdAndDelete(id);
 };

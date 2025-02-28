@@ -23,7 +23,7 @@ import { TodoList } from '../models/TodoList';
  *       500:
  *         description: Failed to create list
  */
-export const createList = async (req: Request, res: Response) => {
+export const createTodo = async (req: Request, res: Response) => {
   try {
     const { title, description, status } = req.body;
     const list = await TodoList.create({ title, description, status });
@@ -49,7 +49,7 @@ export const createList = async (req: Request, res: Response) => {
  *       500:
  *         description: Failed to fetch lists
  */
-export const getLists = async (req: Request, res: Response) => {
+export const getTodos = async (req: Request, res: Response) => {
   try {
     const lists = await TodoList.find();
     successResponse(res, 'Lists fetched successfully', lists);
@@ -78,7 +78,7 @@ export const getLists = async (req: Request, res: Response) => {
  *       404:
  *         description: Todo not found
  */
-export const getListById = async (req: Request, res: Response): Promise<void> => {
+export const getTodoById = async (req: Request, res: Response): Promise<void> => {
   try {
     const list = await TodoList.findById(req.params.id);
     if (!list) {
@@ -117,7 +117,7 @@ export const getListById = async (req: Request, res: Response): Promise<void> =>
  *       404:
  *         description: Todo not found
  */
-export const updateList = async (req: Request, res: Response): Promise<void> => {
+export const updateTodo = async (req: Request, res: Response): Promise<void> => {
   try {
     const { title, description, status } = req.body;
     const list = await TodoList.findByIdAndUpdate(
@@ -154,14 +154,14 @@ export const updateList = async (req: Request, res: Response): Promise<void> => 
  *       500:
  *         description: Failed to delete list
  */
-export const deleteList = async (req: Request, res: Response): Promise<void> => {
+export const deleteTodo = async (req: Request, res: Response): Promise<void> => {
   try {
     const list = await TodoList.findByIdAndDelete(req.params.id);
     if (!list) {
       errorResponse(res, 'List not found', null, 404);
       return;
     }
-    successResponse(res, 'List deleted successfully');
+    successResponse(res, 'List deleted successfully', null);
   } catch (error) {
     errorResponse(res, 'Failed to delete list', error);
   }
