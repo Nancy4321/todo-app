@@ -43,7 +43,7 @@ Ensure MongoDB is running locally or update the `MONGODB_URI` in the `.env` file
 npm run dev
 ```
 
-### Start the production server:
+### Start the build server:
 ```bash
 npm run build
 ```
@@ -52,11 +52,11 @@ then run:
 npm start
 ```
 ### Access the API:
-- The API will be available at [http://localhost:3000/api](http://localhost:3000/api).
-- Swagger documentation will be available at [http://localhost:3000/api-docs](http://localhost:3000/api-docs).
+- The API will be available at [http://localhost:<PORT>/api](http://localhost:<PORT>/api).
+- Swagger documentation will be available at [http://localhost:<PORT>/api-docs](http://localhost:<PORT>/api-docs).
 
 ## API Documentation
-The API is documented using Swagger. You can access the Swagger UI at [http://localhost:3000/api-docs](http://localhost:3000/api-docs).
+The API is documented using Swagger. You can access the Swagger UI at [http://localhost:<PORT>/api-docs](http://localhost:<PORT>/api-docs).
 
 ## Example Requests
 ### Create a Todo
