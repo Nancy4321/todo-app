@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { errorHandler } from '../../middleware/errorHandler';
-import { errorResponse } from '../../utils/apiResponse';
+import { apiResponse } from '../../utils/apiResponse';
 
 jest.mock('../../utils/apiResponse');
 
@@ -18,11 +18,11 @@ describe('errorHandler', () => {
     next = jest.fn();
   });
 
-  it('should handle errors and call errorResponse', () => {
+  it('should handle errors and call apiResponse', () => {
     const mockError = new Error('Test Error');
 
     errorHandler(mockError, req as Request, res as Response, next);
 
-    expect(errorResponse).toHaveBeenCalledWith(res, 'Test Error', mockError);
+    expect(apiResponse).toHaveBeenCalledWith(res, 'error', 'Test Error', mockError, 500);
   });
 });

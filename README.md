@@ -38,9 +38,18 @@ PORT=3000
 Ensure MongoDB is running locally or update the `MONGODB_URI` in the `.env` file to point to your MongoDB instance.
 
 ## Running the Application
-### Start the server:
+### Start the development server:
 ```bash
 npm run dev
+```
+
+### Start the production server:
+```bash
+npm run build
+```
+then run:
+```bash
+npm start
 ```
 ### Access the API:
 - The API will be available at [http://localhost:3000/api](http://localhost:3000/api).

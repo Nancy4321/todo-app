@@ -6,9 +6,9 @@ import {
   getTodoById,
   updateTodo,
   deleteTodo,
+  patchTodo,
 } from '../../controllers/todoListController';
 
-// Mock the TodoList model
 jest.mock('../../models/TodoList');
 
 describe('TodoListController', () => {
@@ -28,7 +28,7 @@ describe('TodoListController', () => {
   });
 
   describe('createTodo', () => {
-    it('should create a new list and return 201 status', async () => {
+    it('should create a new todo list and return 201 status', async () => {
       const mockList = { _id: '1', title: 'Test List', description: 'Test Description', status: 'pending' };
       (TodoList.create as jest.Mock).mockResolvedValue(mockList);
 
@@ -37,14 +37,15 @@ describe('TodoListController', () => {
 
       expect(res.status).toHaveBeenCalledWith(201);
       expect(res.json).toHaveBeenCalledWith({
-        message: 'List created successfully',
+        message: 'Todo created successfully',
         data: mockList,
-        status: 'success'
+        status: 'success',
+        error: null
       });
     });
 
     it('should handle errors when creating a list', async () => {
-      const mockError = new Error('Failed to create list');
+      const mockError = new Error('Failed to create todo list');
       (TodoList.create as jest.Mock).mockRejectedValue(mockError);
 
       req.body = { title: 'Test List' };
@@ -52,15 +53,16 @@ describe('TodoListController', () => {
 
       expect(res.status).toHaveBeenCalledWith(500);
       expect(res.json).toHaveBeenCalledWith({
-        message: 'Failed to create list',
+        message: 'Failed to create todo list',
         error: mockError,
-        status: 'error'
+        status: 'error',
+        data: null
       });
     });
   });
 
   describe('getTodos', () => {
-    it('should fetch all lists and return 200 status', async () => {
+    it('should fetch all todo lists and return 200 status', async () => {
       const mockLists = [{ _id: '1', title: 'Test List' }];
       (TodoList.find as jest.Mock).mockResolvedValue(mockLists);
 
@@ -68,30 +70,32 @@ describe('TodoListController', () => {
 
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith({
-        message: 'Lists fetched successfully',
+        message: 'Todos fetched successfully',
         data: mockLists,
-        status: 'success'
+        status: 'success',
+        error: null
       });
     });
 
     it('should handle errors when fetching lists', async () => {
-      const mockError = new Error('Failed to fetch lists');
+      const mockError = new Error('Failed to fetch todo lists');
       (TodoList.find as jest.Mock).mockRejectedValue(mockError);
 
       await getTodos(req as Request, res as Response);
 
       expect(res.status).toHaveBeenCalledWith(500);
       expect(res.json).toHaveBeenCalledWith({
-        message: 'Failed to fetch lists',
+        message: 'Failed to fetch todo lists',
         error: mockError,
-        status: 'error'
+        status: 'error',
+        data: null
       });
     });
   });
 
 
   describe('getTodoById', () => {
-    it('should fetch a list by ID and return 200 status', async () => {
+    it('should fetch a todo list by ID and return 200 status', async () => {
       const mockList = { _id: '1', title: 'Test List' };
       (TodoList.findById as jest.Mock).mockResolvedValue(mockList);
 
@@ -100,9 +104,10 @@ describe('TodoListController', () => {
 
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith({
-        message: 'List fetched successfully',
+        message: 'Todo fetched successfully',
         data: mockList,
-        status: 'success'
+        status: 'success',
+        error: null,
       });
     });
 
@@ -116,12 +121,13 @@ describe('TodoListController', () => {
       expect(res.json).toHaveBeenCalledWith({
         message: 'Todo not found',
         error: null,
-        status: 'error'
+        status: 'error',
+        data: null
       });
     });
 
     it('should handle errors when fetching a list by ID', async () => {
-      const mockError = new Error('Failed to fetch list');
+      const mockError = new Error('Failed to fetch todo list');
       (TodoList.findById as jest.Mock).mockRejectedValue(mockError);
 
       req.params = { id: '1' };
@@ -129,9 +135,10 @@ describe('TodoListController', () => {
 
       expect(res.status).toHaveBeenCalledWith(500);
       expect(res.json).toHaveBeenCalledWith({
-        message: 'Failed to fetch list',
+        message: 'Failed to fetch todo list',
         error: mockError,
-        status: 'error'
+        status: 'error',
+        data: null
       });
     });
   });
@@ -147,9 +154,10 @@ describe('TodoListController', () => {
 
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith({
-        message: 'List updated successfully',
+        message: 'Todo updated successfully',
         data: mockList,
-        status: 'success'
+        status: 'success',
+        error: null
       });
     });
 
@@ -164,12 +172,13 @@ describe('TodoListController', () => {
       expect(res.json).toHaveBeenCalledWith({
         message: 'Todo not found',
         error: null,
-        status: 'error'
+        status: 'error',
+        data: null
       });
     });
 
     it('should handle errors when updating a list', async () => {
-      const mockError = new Error('Failed to update list');
+      const mockError = new Error('Failed to update todo list');
       (TodoList.findByIdAndUpdate as jest.Mock).mockRejectedValue(mockError);
 
       req.params = { id: '1' };
@@ -178,12 +187,65 @@ describe('TodoListController', () => {
 
       expect(res.status).toHaveBeenCalledWith(500);
       expect(res.json).toHaveBeenCalledWith({
-        message: 'Failed to update list',
+        message: 'Failed to update todo list',
         error: mockError,
-        status: 'error'
+        status: 'error',
+        data: null
       });
     });
   });
+
+describe('patchTodo', () => {
+    it('should partially update a list and return 200 status', async () => {
+        const mockList = { _id: '1', title: 'Partially Updated List' };
+        (TodoList.findByIdAndUpdate as jest.Mock).mockResolvedValue(mockList);
+
+        req.params = { id: '1' };
+        req.body = { title: 'Partially Updated List' };
+        await patchTodo(req as Request, res as Response);
+
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith({
+            message: 'Todo updated successfully',
+            data: mockList,
+            error: null,
+            status: 'success'
+        });
+    });
+
+    it('should return 404 if list to partially update is not found', async () => {
+        (TodoList.findByIdAndUpdate as jest.Mock).mockResolvedValue(null);
+
+        req.params = { id: '1' };
+        req.body = { title: 'Partially Updated List' };
+        await patchTodo(req as Request, res as Response);
+
+        expect(res.status).toHaveBeenCalledWith(404);
+        expect(res.json).toHaveBeenCalledWith({
+            message: 'Todo not found',
+            error: null,
+            data: null,
+            status: 'error'
+        });
+    });
+
+    it('should handle errors when partially updating a list', async () => {
+        const mockError = new Error('Failed to update todo list');
+        (TodoList.findByIdAndUpdate as jest.Mock).mockRejectedValue(mockError);
+
+        req.params = { id: '1' };
+        req.body = { title: 'Partially Updated List' };
+        await patchTodo(req as Request, res as Response);
+
+        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.json).toHaveBeenCalledWith({
+            message: 'Failed to update todo list',
+            error: mockError,
+            data: null,
+            status: 'error'
+        });
+    });
+});
 
   describe('deleteTodo', () => {
     it('should delete a list and return 200 status', async () => {
@@ -196,7 +258,8 @@ describe('TodoListController', () => {
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith({
         data: null,
-        message: 'List deleted successfully',
+        error: null,
+        message: 'Todo deleted successfully',
         status: 'success'
       });
     });
@@ -209,14 +272,15 @@ describe('TodoListController', () => {
 
       expect(res.status).toHaveBeenCalledWith(404);
       expect(res.json).toHaveBeenCalledWith({
-        message: 'List not found',
+        message: 'Todo not found',
         error: null,
+        data: null,
         status: 'error'
       });
     });
 
     it('should handle errors when deleting a list', async () => {
-      const mockError = new Error('Failed to delete list');
+      const mockError = new Error('Failed to delete todo list');
       (TodoList.findByIdAndDelete as jest.Mock).mockRejectedValue(mockError);
 
       req.params = { id: '1' };
@@ -224,9 +288,10 @@ describe('TodoListController', () => {
 
       expect(res.status).toHaveBeenCalledWith(500);
       expect(res.json).toHaveBeenCalledWith({
-        message: 'Failed to delete list',
+        message: 'Failed to delete todo list',
         error: mockError,
-        status: 'error'
+        status: 'error',
+        data: null
       });
     });
   });

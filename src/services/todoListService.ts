@@ -20,6 +20,14 @@ export const updateTodo = async (id: string, title: string, description?: string
   );
 };
 
+export const patchTodo = async (id: string, title: string, description?: string, status?: string) => {
+  return await TodoList.findByIdAndUpdate(
+    id,
+    { title, description, status },
+    { new: true }
+  );
+};
+
 export const deleteTodo = async (id: string) => {
   return await TodoList.findByIdAndDelete(id);
 };

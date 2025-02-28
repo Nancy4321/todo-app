@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import logger from '../utils/logger';
-import { errorResponse } from '../utils/apiResponse';
+import { apiResponse } from '../utils/apiResponse';
 
 export const errorHandler = (
   err: Error,
@@ -9,6 +9,6 @@ export const errorHandler = (
   next: NextFunction
 ) => {
   logger.error(err.stack);
-  errorResponse(res, err.message, err);
+  apiResponse(res, 'error', err.message, err, 500);
 };
 

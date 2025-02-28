@@ -3,33 +3,22 @@ import { Response } from 'express';
 interface ApiResponse {
   status: 'success' | 'error';
   message: string;
-  data?: any;
-  error?: any;
+  data?: null;
+  error?: null;
 }
 
-export const successResponse = (
+export const apiResponse = (
   res: Response,
+  status: 'success' | 'error',
   message: string,
   data?: any,
-  statusCode: number = 200
+  error?: any,
+  statusCode: number = status === 'success' ? 200 : 500
 ) => {
   const response: ApiResponse = {
-    status: 'success',
+    status,
     message,
     data,
-  };
-  res.status(statusCode).json(response);
-};
-
-export const errorResponse = (
-  res: Response,
-  message: string,
-  error?: any,
-  statusCode: number = 500
-) => {
-  const response: ApiResponse = {
-    status: 'error',
-    message,
     error,
   };
   res.status(statusCode).json(response);

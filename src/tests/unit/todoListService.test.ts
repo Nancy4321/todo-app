@@ -1,4 +1,4 @@
-import { createTodo, getTodos, getTodoById, updateTodo, deleteTodo } from '../../services/todoListService';
+import { createTodo, getTodos, getTodoById, updateTodo, deleteTodo, patchTodo } from '../../services/todoListService';
 import { TodoList } from '../../models/TodoList';
 import { jest } from '@jest/globals';
 
@@ -9,7 +9,7 @@ const mockedTodoList = TodoList as jest.Mocked<typeof TodoList>;
 describe('TodoList Service', () => {
   it('should create a new list', async () => {
     const mockTodo = { title: 'Test Todo List', description: 'Test Description', status: 'pending' };
-    mockedTodoList.create.mockResolvedValue(mockTodo as any); // Use "as any" to bypass TypeScript type checking
+    mockedTodoList.create.mockResolvedValue(mockTodo as any);
 
     const result = await createTodo('Test Todo List', 'Test Description');
     expect(result).toEqual(mockTodo);
@@ -37,6 +37,14 @@ describe('TodoList Service', () => {
 
     const result = await updateTodo('1', 'Updated Title', 'Updated Description', 'complete');
     expect(result).toEqual(mockUpdatedTodo);
+  });
+
+  it('should patch a todo list', async () => {
+    const mockPatchedTodo = { title: 'Updated Todo List', description: 'Updated Description', status: 'complete' };
+    mockedTodoList.findByIdAndUpdate.mockResolvedValue(mockPatchedTodo as any);
+
+    const result = await patchTodo('1', 'Updated Title', 'Updated Description', 'complete');
+    expect(result).toEqual(mockPatchedTodo);
   });
 
   it('should delete a todo list', async () => {
