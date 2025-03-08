@@ -13,6 +13,6 @@ export const errorHandler = (
   next: NextFunction
 ) => {
   logger.error(err.stack);
-  apiResponse(res, 'error', err.message, null, err, err.statusCode);
+  apiResponse(res, 'error', err.message, null, err, err.statusCode || 500);
 };
 

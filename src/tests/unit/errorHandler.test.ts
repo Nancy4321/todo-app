@@ -25,6 +25,6 @@ describe('errorHandler', () => {
 
     errorHandler(mockError, req as Request, res as Response, next);
 
-    expect(apiResponse).toHaveBeenCalledWith(res, 'error', 'Test Error', null, mockError, undefined);
+    expect(apiResponse).toHaveBeenCalledWith(res, 'error', 'Test Error', null, mockError, 500);
   });
 });

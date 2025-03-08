@@ -10,13 +10,11 @@ const swaggerSpec = swaggerJsdoc(options);
 // Middleware
 app.use(express.json());
 
-// Routes
 app.use('/api', todoRoutes);
 
 // Swagger documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// Error handling middleware
 app.use(errorHandler);
 
 export default app;

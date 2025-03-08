@@ -1,4 +1,4 @@
-# This workflow automates setup, dependency installation with cache, build, and test processes for Node.js 20.x on PR events (open, reopen, sync) and push events.
+# This workflow automates setup, dependency installation with cache, build, and test processes for Node.js 23.x on PR events (open, reopen, sync) and push events.
 # See: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
 name: Development Workflow
