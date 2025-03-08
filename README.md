@@ -21,7 +21,7 @@ This is a simple RESTful API built with Node.js, TypeScript, and MongoDB to mana
 ## Setup Instructions
 ### Clone the repository:
 ```bash
-git clone https://github.com/your-repo/todo-api.git
+git clone https://github.com/Nancy4321/todo-api.git
 cd todo-api
 ```
 ### Install dependencies:
