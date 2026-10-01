@@ -18,7 +18,7 @@ export const validateListInput = (
     next();
   } catch (error) {
     if (error instanceof z.ZodError) {
-      apiResponse(res, 'error', 'Validation failed', null, error.errors, 400);
+      apiResponse(res, 'error', 'Validation failed', null, error.issues, 400);
     } else {
       next(error);
     }

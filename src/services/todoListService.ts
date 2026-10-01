@@ -1,6 +1,6 @@
 import { TodoList } from '../models/TodoList';
 
-export const createTodo = async (title: string, description?: string, status?: string) => {
+export const createTodo = async (title: string, description?: string, status?: 'pending' | 'complete') => {
   return await TodoList.create({ title, description, status });
 };
 
@@ -12,7 +12,7 @@ export const getTodoById = async (id: string) => {
   return await TodoList.findById(id);
 };
 
-export const updateTodo = async (id: string, title: string, description?: string, status?: string) => {
+export const updateTodo = async (id: string, title: string, description?: string, status?: 'pending' | 'complete') => {
   return await TodoList.findByIdAndUpdate(
     id,
     { title, description, status },
@@ -20,7 +20,7 @@ export const updateTodo = async (id: string, title: string, description?: string
   );
 };
 
-export const patchTodo = async (id: string, title: string, description?: string, status?: string) => {
+export const patchTodo = async (id: string, title: string, description?: string, status?: 'pending' | 'complete') => {
   return await TodoList.findByIdAndUpdate(
     id,
     { title, description, status },
